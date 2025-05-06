@@ -1,35 +1,68 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useQuery } from "@tanstack/react-query";
+import {
+  Button,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  CircularProgress,
+  Alert,
+  Box,
+} from "@mui/material";
+
+// Updated fetcher for JSONPlaceholder
+const fetchUsers = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  if (!res.ok) throw new Error("Failed to fetch");
+  return res.json(); // Returns array directly
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["users"], // Changed query key
+    queryFn: fetchUsers,
+  });
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="p-8">
+      <Typography variant="h3" component="h1" className="mb-6">
+        User List {/* Updated title */}
+      </Typography>
+
+      {isLoading && (
+        <Box display="flex" justifyContent="center" my={4}>
+          <CircularProgress />
+        </Box>
+      )}
+
+      {error && (
+        <Alert severity="error" className="mb-4">
+          Error: {error.message}
+        </Alert>
+      )}
+
+      {data && (
+        <List
+          sx={{ width: "100%", maxWidth: 600, bgcolor: "background.paper" }}
+        >
+          {/* Map directly over data (no .results) */}
+          {data.map((user: any) => (
+            <ListItem key={user.id} divider>
+              <ListItemText primary={user.name} secondary={user.email} />
+            </ListItem>
+          ))}
+        </List>
+      )}
+
+      <Button
+        variant="contained"
+        disableElevation
+        className="mt-6 bg-blue-500 hover:bg-blue-700"
+      >
+        Refresh Data
+      </Button>
+    </div>
+  );
 }
 
-export default App
+export default App;
