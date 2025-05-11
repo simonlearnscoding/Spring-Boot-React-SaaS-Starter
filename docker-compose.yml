@@ -1,8 +1,6 @@
-version: "3.8"
-
 services:
   postgres:
-    image: postgres:15-alpine # Lightweight PostgreSQL
+    image: postgres:15 # Lightweight PostgreSQL
     environment:
       POSTGRES_USER: postgres # Default username
       POSTGRES_PASSWORD: postgres # Default password
