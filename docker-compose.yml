@@ -26,20 +26,5 @@ services:
     depends_on:
       - db
 
-  frontend:
-    volumes:
-      - ./client:/app
-    environment:
-      - DOCKER=true
-    build:
-      context: ./client
-    command: yarn start
-    ports:
-      - "3000:3000"
-    stdin_open: true
-    tty: true
-    depends_on:
-      - backend
-
 volumes:
   postgres_data:
