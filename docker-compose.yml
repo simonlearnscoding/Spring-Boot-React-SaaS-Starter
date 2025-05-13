@@ -1,16 +1,30 @@
 version: "3.8"
 
 services:
-  postgres:
-    image: postgres:15-alpine # Lightweight PostgreSQL
+  db:
+    image: postgres:15
+    restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres # Default username
-      POSTGRES_PASSWORD: postgres # Default password
-      POSTGRES_DB: mvpdb # Default DB name
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mvpdb
     ports:
-      - "5432:5432" # Expose PostgreSQL to host machine
+      - "54333:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data # Persist data
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./server
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mvpdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - db
 
 volumes:
-  postgres_data: # Named volume for data persistence
+  postgres_data:
