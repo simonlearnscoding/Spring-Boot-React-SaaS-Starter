@@ -12,34 +12,34 @@ services:
       - "54333:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-  backend:
-    build:
-      context: ./server
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mvpdb
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-    depends_on:
-      - db
-
-  frontend:
-    volumes:
-      - ./client:/app
-    environment:
-      - DOCKER=true
-    build:
-      context: ./client
-    command: yarn start
-    ports:
-      - "3000:3000"
-    stdin_open: true
-    tty: true
-    depends_on:
-      - backend
-
+#
+#   backend:
+#     build:
+#       context: ./server
+#     ports:
+#       - "8080:8080"
+#     environment:
+#       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mvpdb
+#       SPRING_DATASOURCE_USERNAME: postgres
+#       SPRING_DATASOURCE_PASSWORD: postgres
+#       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+#     depends_on:
+#       - db
+#
+#   frontend:
+#     volumes:
+#       - ./client:/app
+#     environment:
+#       - DOCKER=true
+#     build:
+#       context: ./client
+#     command: yarn start
+#     ports:
+#       - "3000:3000"
+#     stdin_open: true
+#     tty: true
+#     depends_on:
+#       - backend
+#
 volumes:
   postgres_data:
