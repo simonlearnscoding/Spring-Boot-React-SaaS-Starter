@@ -3,6 +3,7 @@ pkgs.mkShell {
   buildInputs = [
     pkgs.docker
     pkgs.podman-compose
+    pkgs.entr
     # pkgs.nodejs
     # pkgs.typescript
     # pkgs.nodePackages.typescript-language-server
