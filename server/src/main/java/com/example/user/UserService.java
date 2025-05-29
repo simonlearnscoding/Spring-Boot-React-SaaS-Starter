@@ -15,7 +15,6 @@ public class UserService {
 
   public List<User> getAllUsers() {
     List<User> users = userRepository.findAll();
-    System.out.println("Returning users: " + users.size());
     return users;
   }
 
@@ -23,8 +22,11 @@ public class UserService {
     return userRepository.findById(id);
   }
 
+  public Optional<User> getUserByEmail(String email) {
+    return userRepository.findByEmail(email);
+  }
+
   public User createUser(User user) {
-    System.out.println("Creating user: " + user.getEmail());
     return userRepository.save(user);
   }
 }

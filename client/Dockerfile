@@ -1,3 +1,6 @@
+# Stage 1: Build the Vite app
+FROM node:18-alpine as builder
+WORKDIR /app
 
 # client/Dockerfile
 #FROM node:18-alpine
