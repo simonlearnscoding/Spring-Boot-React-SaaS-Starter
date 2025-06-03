@@ -15,7 +15,7 @@ import com.example.user.User;
 import com.example.user.UserService;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTests {
+public class UserServiceImplementationTests {
 
 	@Mock
 	private UserRepository userRepository;

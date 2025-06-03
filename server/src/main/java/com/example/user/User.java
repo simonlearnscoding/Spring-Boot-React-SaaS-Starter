@@ -1,5 +1,9 @@
 package com.example.user;
 
+import java.util.ArrayList;
+import java.util.List;
+import com.example.task.Task;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -9,6 +13,9 @@ public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Task> tasks = new ArrayList<>();
 
   private String name;
   private String email;
@@ -23,6 +30,10 @@ public class User {
 
   public Long getId() {
     return id;
+  }
+
+  public List<Task> getTasks() {
+    return tasks;
   }
 
   public String getName() {
