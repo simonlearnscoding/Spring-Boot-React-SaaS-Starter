@@ -21,6 +21,13 @@ public class UserService {
     return users;
   }
 
+  public void deleteUser(Long userId) {
+    if (!userRepository.existsById(userId)) {
+      throw new IllegalArgumentException("User not found");
+    }
+    userRepository.deleteById(userId);
+  }
+
   public List<Task> getTasksByUser(Long userId) {
     return userRepository.findById(userId)
         .map(User::getTasks)

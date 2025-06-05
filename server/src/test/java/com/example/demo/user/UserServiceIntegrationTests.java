@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.junit.jupiter.api.BeforeEach;
 
 @SpringBootTest
 @Transactional
@@ -23,19 +24,33 @@ public class UserServiceIntegrationTests {
 	@Autowired
 	private UserRepository userRepository;
 
+	private User createTestUser() {
+		User user = new User("Test User", "test@example.com");
+		return userService.createUser(user);
+	}
+
 	@Test
 	void shouldCreateAndRetrieveUser() {
-		// Given
-		User newUser = new User("Test User", "test@example.com");
-
-		// When
-		User savedUser = userService.createUser(newUser);
+		User savedUser = createTestUser();
 		User foundUser = userService.getUserById(savedUser.getId())
 				.orElseThrow();
 
 		// Then
 		assertThat(foundUser).isEqualTo(savedUser);
 		assertThat(foundUser.getEmail()).isEqualTo("test@example.com");
+	}
+
+	@Test
+	void shouldDeleteUser() {
+		// Given
+		User user = createTestUser();
+		Long userId = user.getId();
+
+		// When
+		userService.deleteUser(userId);
+
+		// Then
+		assertThat(userService.getUserById(userId)).isEmpty();
 	}
 
 	@Test
