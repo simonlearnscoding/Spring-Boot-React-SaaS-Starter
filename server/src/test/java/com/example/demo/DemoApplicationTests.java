@@ -12,9 +12,7 @@ import org.springframework.test.context.TestPropertySource;
 		"spring.datasource.driver-class-name=org.h2.Driver"
 })
 class DemoApplicationTests {
-
 	@Test
 	void contextLoads() {
 	}
-
 }
